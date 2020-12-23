@@ -1,58 +1,30 @@
-// // import * as basicLightbox from "basiclightbox";
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
-// export default function openModal(evt) {
-//   evt.preventDefault();
+export default function Modal({ onClose, largeImageURL }) {
+  useEffect(() => {
+    window.addEventListener('keydown', e => {
+      if (e.code === 'Escape') {
+        console.log('Escape');
+        onClose();
+      }
+    });
+  }, [onClose]);
 
-//   if (evt.target.nodeName !== "IMG") {
-//     return;
-//   }
-
-//   return (
-//     <div className="Overlay">
-//       <div className="Modal">
-//         <img src="{evt.target.dataset.src}" alt="{evt.target.alt}" />
-//       </div>
-//     </div>
-//   );
-// }
-
-import React, { Component } from "react";
-import { createPortal } from "react-dom";
-// import "./Modal.scss";
-// import IconButton from "../IconButton/IconButton";
-// import { ReactComponent as CloseIcon } from "../../icons/close.svg";
-
-export default class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("keydown", this.handleKeyDown);
-  }
-
-  handleKeyDown = (e) => {
-    if (e.code === "Escape") {
-      this.props.onClose();
-    }
-  };
-
-  handelBackdropClick = (e) => {
+  const handelBackdropClick = e => {
     if (e.target === e.currentTarget) {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  render() {
-    return createPortal(
-      <div className="Overlay" onClick={this.handelBackdropClick}>
-        <div className="Modal">
-          <a href={this.props.largeImageURL}>
-            <img src={this.props.largeImageURL} alt="" />
-          </a>
-        </div>
-      </div>,
-      document.querySelector("#modal-root")
-    );
-  }
+  return createPortal(
+    <div className="Overlay" onClick={handelBackdropClick}>
+      <div className="Modal">
+        <a href={largeImageURL}>
+          <img src={largeImageURL} alt="" />
+        </a>
+      </div>
+    </div>,
+    document.querySelector('#modal-root'),
+  );
 }

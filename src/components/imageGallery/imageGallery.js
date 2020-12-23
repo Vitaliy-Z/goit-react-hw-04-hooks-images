@@ -6,13 +6,6 @@ import Spiner from '../spiner/spiner';
 import Modal from '../modal/modal';
 
 export default function ImageGallery({ searchQuery }) {
-  // const Status = {
-  //   IDLE: 'idle',
-  //   PENDING: 'pending',
-  //   RESOLVED: 'resolved',
-  //   REJECTED: 'rejected',
-  // };
-
   const [images, setImages] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -55,48 +48,6 @@ export default function ImageGallery({ searchQuery }) {
     }
   }, [pageNumber, searchQuery]);
 
-  // useEffect(() => {
-  //   setPageNumber(1);
-  // }, [searchQuery]);
-
-  // useEffect(() => {
-  //   if (searchQuery === '' && pageNumber === 1) {
-  //     console.log('нету запрос');
-
-  //     return;
-  //   }
-
-  //   if (pageNumber !== 1) {
-  //     console.log('повторный  запрос');
-
-  //     setStatus(Status.PENDING);
-
-  //     imageFinderApi(searchQuery, pageNumber)
-  //       .then(images => {
-  //         setImages(prevState => [...prevState, ...images]);
-
-  //         setStatus(Status.RESOLVED);
-  //       })
-  //       .finally(() =>
-  //         window.scrollTo({
-  //           top: document.documentElement.scrollHeight,
-  //           behavior: 'smooth',
-  //         }),
-  //       );
-  //     return;
-  //   }
-
-  //   if (searchQuery !== '' && pageNumber === 1) {
-  //     console.log('новый запрос');
-  //     setStatus(Status.PENDING);
-
-  //     imageFinderApi(searchQuery, pageNumber).then(imagesOfAPI => {
-  //       setImages(imagesOfAPI);
-  //       setStatus(Status.RESOLVED);
-  //     });
-  //   }
-  // }, [Status.PENDING, Status.RESOLVED, pageNumber, searchQuery]);
-
   if (status === 'idle') {
     return <div></div>;
   }
@@ -119,7 +70,7 @@ export default function ImageGallery({ searchQuery }) {
           <ImageGalleryItem
             images={images}
             getLargeImageURL={largeImageURL => {
-              setShowModal(!setShowModal);
+              setShowModal(!showModal);
               setLargeImageURL(largeImageURL);
             }}
           />
@@ -127,7 +78,7 @@ export default function ImageGallery({ searchQuery }) {
         <BtnLoadMore onClick={() => setPageNumber(pageNumber + 1)} />
         {showModal && (
           <Modal
-            onClose={() => setShowModal(!setShowModal)}
+            onClose={() => setShowModal(!showModal)}
             largeImageURL={largeImageURL}
           />
         )}
